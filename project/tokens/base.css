@@ -1,0 +1,58 @@
+/* BERD GYM — Base layer: resets + element defaults that consume the tokens.
+   Imported by styles.css after the token files. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--orange); color: var(--ink-on-orange); }
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+button { font-family: inherit; }
+
+/* —— Utility / vocabulary classes —— */
+
+/* Heavy condensed uppercase display headline */
+.berd-display {
+  font-family: var(--font-display);
+  font-weight: var(--fw-display);
+  text-transform: uppercase;
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+
+/* Slanted "poster italic" energy */
+.berd-italic { display: inline-block; transform: var(--skew-italic); }
+
+/* Wide-tracked orange eyebrow label */
+.berd-eyebrow {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+  color: var(--orange);
+  font-size: var(--fs-label);
+}
+
+/* Molten-metal orange text fill (prices, accent words) */
+.berd-metal-text {
+  background: var(--grad-orange-metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}

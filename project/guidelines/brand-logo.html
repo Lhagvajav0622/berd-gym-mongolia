@@ -1,0 +1,24 @@
+<!-- @dsCard group="Brand" viewport="700x210" name="Logo lockup" subtitle="BERD GYM MONGOLIA — white lockup on near-black" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { padding: 0; }
+  .wrap { display:grid; grid-template-columns: 1fr 1fr; min-height:210px; }
+  .cell { display:flex; align-items:center; justify-content:center; padding:24px; }
+  .dark { background:var(--berd-black); }
+  .glow { background:radial-gradient(120% 120% at 50% 40%, rgba(247,148,29,.22), var(--berd-black-deep) 70%); }
+  img { width:200px; height:auto; }
+  .cap { position:absolute; bottom:10px; left:14px; font-family:var(--font-body); font-size:11px; color:var(--text-muted); }
+  .cell { position:relative; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="cell dark"><img src="../assets/logo-berdgym-dark.png" alt="BERD GYM logo"><span class="cap">on #0E0E0E</span></div>
+    <div class="cell glow"><img src="../assets/logo-berdgym-dark.png" alt="BERD GYM logo"><span class="cap">on orange glow</span></div>
+  </div>
+</body>
+</html>

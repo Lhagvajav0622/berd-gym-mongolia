@@ -1,0 +1,32 @@
+<!-- @dsCard group="Type" viewport="700x250" name="Price — molten metal" subtitle="The signature hero element: oversized orange price, gradient fill" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { padding: 22px 26px; display:flex; align-items:center; gap:30px; }
+  .price {
+    font-family: var(--font-display); font-weight:700; text-transform:uppercase;
+    line-height:.82; letter-spacing:-0.02em; font-size:140px;
+    background: var(--grad-orange-metal);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    -webkit-text-fill-color:transparent;
+    filter: drop-shadow(0 6px 16px rgba(247,148,29,.35));
+  }
+  .price .k { font-size:.62em; }
+  .side { font-family:var(--font-body); }
+  .side .term { font-family:var(--font-display); text-transform:uppercase; font-weight:600; color:var(--grey); letter-spacing:.06em; font-size:15px; }
+  .side .old { font-family:var(--font-display); font-weight:700; font-size:34px; color:var(--text-muted); text-decoration:line-through; text-decoration-color:var(--danger); }
+  .side .meta { margin-top:14px; font-size:12px; color:var(--text-muted); max-width:170px; }
+</style>
+</head>
+<body>
+  <div class="price">250<span class="k">K</span></div>
+  <div class="side">
+    <div class="term">/ сар</div>
+    <div class="old">300K</div>
+    <div class="meta">Хэмжээ авто-томрох: <b style="color:var(--grey)">--fs-price-mega</b> 88→176px</div>
+  </div>
+</body>
+</html>

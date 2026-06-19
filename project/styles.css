@@ -1,0 +1,10 @@
+/* BERD GYM MONGOLIA — Design System
+   Global entry point. Consumers link this one file.
+   @import lines only — every token, font, and base layer is reached from here. */
+
+@import "tokens/fonts.css";
+@import "tokens/colors.css";
+@import "tokens/typography.css";
+@import "tokens/spacing.css";
+@import "tokens/effects.css";
+@import "tokens/base.css";

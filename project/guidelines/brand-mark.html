@@ -1,0 +1,28 @@
+<!-- @dsCard group="Brand" viewport="700x200" name="Figure mark" subtitle="The bodybuilder silhouette — icon / favicon, white or orange" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { padding: 0; }
+  .wrap { display:flex; gap:0; min-height:200px; }
+  .cell { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:20px; }
+  .a { background:var(--berd-black); }
+  .b { background:var(--surface-2); }
+  .c { background:var(--grad-orange-flat); }
+  img { height:96px; width:auto; }
+  .lab { font-family:var(--font-body); font-size:11px; font-weight:700; letter-spacing:.04em; }
+  .a .lab { color:var(--grey); }
+  .b .lab { color:var(--grey); }
+  .c .lab { color:var(--ink-on-orange); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="cell a"><img src="../assets/mark-white.png" alt="mark"><div class="lab">White / dark</div></div>
+    <div class="cell b"><img src="../assets/mark-orange.png" alt="mark"><div class="lab">Orange / surface</div></div>
+    <div class="cell c"><img src="../assets/mark-white.png" alt="mark"><div class="lab">White / orange</div></div>
+  </div>
+</body>
+</html>

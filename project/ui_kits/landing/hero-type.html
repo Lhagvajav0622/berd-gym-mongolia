@@ -1,0 +1,61 @@
+<!-- @dsCard group="Landing — Directions" viewport="430x900" name="Direction C · Poster Type" subtitle="Type-forward poster: giant condensed stack, price as headline" -->
+<!-- @startingPoint section="Landing" subtitle="Hero direction: type-forward poster, minimal imagery" viewport="430x900" -->
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BERD GYM — Direction C</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  .screen { max-width:430px; margin:0 auto; background:var(--berd-black); min-height:100%; position:relative; overflow:hidden; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--surface-line); }
+  header img { height:32px; }
+  header .ph { font-family:var(--font-display); font-weight:700; font-size:16px; color:var(--orange); }
+  .hero { padding:30px 20px 26px; }
+  .eyebrow { font-family:var(--font-display); font-weight:600; text-transform:uppercase; letter-spacing:.2em; color:var(--orange); font-size:12px; }
+  .stack { margin-top:14px; font-family:var(--font-display); font-weight:700; text-transform:uppercase; line-height:.86; letter-spacing:-.015em; color:#fff; white-space:nowrap; }
+  .stack .l1 { font-size:52px; }
+  .stack .l2 { font-size:52px; color:var(--orange); display:inline-block; transform:skewX(-9deg); }
+  .stack .l3 { font-size:52px; }
+  .imgstrip { margin:22px -20px 0; height:150px; background:url('../../assets/imagery/athlete-torso.jpg') center 20%/cover; position:relative; }
+  .imgstrip::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg, var(--berd-black) 2%, transparent 40%, transparent 60%, var(--berd-black) 98%), linear-gradient(0deg, var(--berd-black), transparent 60%); }
+  .pricecard { margin-top:24px; padding:22px; background:var(--grad-surface); border:1px solid var(--surface-line-2); border-radius:var(--radius-lg); display:flex; align-items:flex-end; justify-content:space-between; box-shadow:var(--shadow-card); }
+  .pricecard .left .term { font-family:var(--font-display); font-weight:600; text-transform:uppercase; letter-spacing:.06em; color:var(--grey); font-size:13px; }
+  .pricecard .left .old { font-family:var(--font-display); font-weight:700; font-size:26px; color:var(--text-muted); text-decoration:line-through; text-decoration-color:var(--danger); text-decoration-thickness:3px; }
+  .price { font-family:var(--font-display); font-weight:700; text-transform:uppercase; line-height:.82; letter-spacing:-.02em; font-size:84px; background:var(--grad-orange-metal); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 6px 16px rgba(247,148,29,.4)); }
+  .price .k { font-size:.6em; }
+  .cta { margin-top:18px; display:flex; gap:12px; }
+  .btn-p { flex:1; height:56px; display:inline-flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:.04em; font-size:18px; border-radius:999px; border:none; cursor:pointer; background:var(--grad-orange-metal); color:var(--ink-on-orange); box-shadow:var(--glow-cta), var(--inset-glint); }
+  .btn-s { flex:0 0 auto; padding:0 22px; height:56px; background:transparent; color:var(--orange); box-shadow:inset 0 0 0 2px var(--orange); border:none; border-radius:999px; font-family:var(--font-display); font-weight:700; text-transform:uppercase; font-size:16px; cursor:pointer; }
+</style>
+</head>
+<body>
+  <div class="screen">
+    <header>
+      <img src="../../assets/logo-berdgym-dark.png" alt="BERD GYM">
+      <span class="ph">86661231</span>
+    </header>
+    <section class="hero">
+      <div class="eyebrow">BERD GYM · Улаанбаатар</div>
+      <div class="stack">
+        <div class="l1">Хэзээ ч</div>
+        <div class="l2">бүү зогс</div>
+        <div class="l3">Хүчтэй бол</div>
+      </div>
+      <div class="imgstrip"></div>
+      <div class="pricecard">
+        <div class="left">
+          <div class="term">Фитнес · 3 сар</div>
+          <div class="old">200K</div>
+        </div>
+        <div class="price">160<span class="k">K</span></div>
+      </div>
+      <div class="cta">
+        <button class="btn-p">Гишүүн болох</button>
+        <button class="btn-s">Үнэ</button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

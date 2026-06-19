@@ -1,0 +1,57 @@
+/* BERD GYM — Color tokens
+   Raw poster palette: near-black grounds, a single energetic orange accent,
+   white headlines, mid-grey support copy. Orange is used boldly and only for
+   emphasis — prices, CTAs, headline accents, check-marks. */
+
+:root {
+  /* —— Base neutrals (the dark) —— */
+  --berd-black-deep: #080808;   /* deepest ground / vignette */
+  --berd-black:      #0E0E0E;   /* page background */
+  --surface-1:       #1A1A1A;   /* default card surface */
+  --surface-2:       #222222;   /* raised surface, inputs */
+  --surface-3:       #2C2C2C;   /* hover / elevated chip */
+  --surface-line:    rgba(255,255,255,0.08);  /* hairline divider */
+  --surface-line-2:  rgba(255,255,255,0.16);  /* stronger border */
+
+  /* —— Brand orange (single accent) —— */
+  --orange:          #F7941D;   /* core brand accent */
+  --orange-bright:   #FFB23E;   /* top of metal gradient / hover */
+  --orange-hot:      #FFD27A;   /* highlight glint */
+  --orange-deep:     #E07A0C;   /* bottom of metal gradient / press */
+  --orange-ember:    #B85F05;   /* darkest amber, shadows on orange */
+
+  /* —— Text —— */
+  --white:           #FFFFFF;
+  --text-primary:    #FFFFFF;
+  --text-secondary:  #B4B4B4;   /* body on dark */
+  --grey:            #9A9A9A;   /* spec secondary grey */
+  --text-muted:      #6E6E6E;   /* captions, meta, disabled */
+  --ink-on-orange:   #140A00;   /* near-black text sitting on orange */
+
+  /* —— Semantic —— */
+  --danger:          #E5484D;   /* crossed-out / old price strike */
+  --success:         #F7941D;   /* check-marks are orange in this brand */
+
+  /* —— Semantic aliases —— */
+  --bg-page:         var(--berd-black);
+  --bg-deep:         var(--berd-black-deep);
+  --surface-card:    var(--surface-1);
+  --surface-input:   var(--surface-2);
+  --accent:          var(--orange);
+  --accent-strong:   var(--orange-deep);
+  --border:          var(--surface-line);
+  --border-strong:   var(--surface-line-2);
+  --price-color:     var(--orange);
+
+  /* —— Gradients —— */
+  /* The signature "molten metal" orange used on prices & primary CTAs */
+  --grad-orange-metal: linear-gradient(177deg,
+      #FFE3A8 0%, #FFB23E 24%, #F7941D 52%, #E07A0C 78%, #B85F05 100%); /* @kind color */
+  --grad-orange-flat:  linear-gradient(180deg, #FFB23E 0%, #F7941D 50%, #E07A0C 100%); /* @kind color */
+  --grad-surface:      linear-gradient(180deg, #1E1E1E 0%, #151515 100%); /* @kind color */
+  /* dark protection gradient laid over hero photography */
+  --grad-hero-scrim:   linear-gradient(180deg,
+      rgba(8,8,8,0.20) 0%, rgba(8,8,8,0.55) 45%, rgba(8,8,8,0.94) 100%); /* @kind color */
+  --grad-orange-glow:  radial-gradient(120% 90% at 70% 40%,
+      rgba(247,148,29,0.45) 0%, rgba(247,148,29,0.0) 60%); /* @kind color */
+}

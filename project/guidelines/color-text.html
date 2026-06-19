@@ -1,0 +1,41 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Text & semantic" subtitle="Type colors on dark, plus strike-through and check accents" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { padding: 22px; }
+  .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .sw { border-radius: var(--radius-md); height: 64px; border: 1px solid var(--surface-line); display:flex; align-items:flex-end; padding:8px; }
+  .sw b { font-family: var(--font-display); font-weight:700; text-transform:uppercase; font-size:20px; }
+  .lab { margin-top: 9px; font-family: var(--font-body); }
+  .lab .n { font-size: 13px; font-weight: 700; }
+  .lab .h { font-size: 12px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div>
+      <div class="sw" style="background:var(--surface-1)"><b style="color:var(--text-primary)">Аа</b></div>
+      <div class="lab"><div class="n">Primary</div><div class="h">#FFFFFF</div></div>
+    </div>
+    <div>
+      <div class="sw" style="background:var(--surface-1)"><b style="color:var(--grey)">Аа</b></div>
+      <div class="lab"><div class="n">Grey</div><div class="h">#9A9A9A</div></div>
+    </div>
+    <div>
+      <div class="sw" style="background:var(--surface-1)"><b style="color:var(--text-muted)">Аа</b></div>
+      <div class="lab"><div class="n">Muted</div><div class="h">#6E6E6E</div></div>
+    </div>
+    <div>
+      <div class="sw" style="background:var(--orange)"><b style="color:var(--ink-on-orange)">Аа</b></div>
+      <div class="lab"><div class="n">Ink on orange</div><div class="h">#140A00</div></div>
+    </div>
+    <div>
+      <div class="sw" style="background:var(--surface-1)"><b style="color:var(--danger)">160K</b></div>
+      <div class="lab"><div class="n">Strike</div><div class="h">#E5484D</div></div>
+    </div>
+  </div>
+</body>
+</html>

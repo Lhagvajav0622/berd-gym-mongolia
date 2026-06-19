@@ -1,0 +1,40 @@
+/* BERD GYM — Effects: radii, borders, shadows, orange glow, motion. */
+
+:root {
+  /* —— Corner radii —— */
+  --radius-xs:   6px;
+  --radius-sm:   10px;
+  --radius-md:   14px;   /* default card / input */
+  --radius-lg:   20px;   /* large cards, hero panels */
+  --radius-xl:   28px;
+  --radius-pill: 999px;  /* badges, chips, pill CTAs */
+
+  /* —— Borders —— */
+  --border-width:      1px;
+  --border-hairline:   1px solid var(--surface-line);
+  --border-card:       1px solid var(--surface-line-2);
+  --border-accent:     2px solid var(--orange);
+
+  /* —— Shadows (on near-black, shadows are deep + soft) —— */
+  --shadow-sm:    0 2px 8px rgba(0,0,0,0.45);
+  --shadow-card:  0 14px 40px rgba(0,0,0,0.55);
+  --shadow-pop:   0 24px 70px rgba(0,0,0,0.65);
+
+  /* —— Orange glow (the "heat" around CTAs, prices, featured cards) —— */
+  --glow-sm:    0 0 22px rgba(247,148,29,0.30);
+  --glow-md:    0 0 44px rgba(247,148,29,0.40);
+  --glow-lg:    0 0 90px rgba(247,148,29,0.45);
+  --glow-cta:   0 12px 34px rgba(247,148,29,0.40);
+  /* inner top-light glint used on metal price text / buttons */
+  --inset-glint: inset 0 1px 0 rgba(255,255,255,0.45);
+
+  /* text glow for orange headlines floating on photography */
+  --text-glow-orange: 0 0 28px rgba(247,148,29,0.55);
+
+  /* —— Motion —— */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);     /* @kind other */
+  --ease-punch:  cubic-bezier(0.34, 1.56, 0.64, 1);  /* @kind other */
+  --dur-fast:    140ms;  /* @kind other */
+  --dur:         220ms;  /* @kind other */
+  --dur-slow:    420ms;  /* @kind other */
+}

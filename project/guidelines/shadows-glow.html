@@ -1,0 +1,36 @@
+<!-- @dsCard group="Spacing" viewport="700x200" name="Shadows & orange glow" subtitle="Deep card shadows on black + the orange heat glow on CTAs" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { padding: 30px 26px; }
+  .row { display:flex; align-items:center; gap:34px; flex-wrap:wrap; }
+  .box { width:120px; height:84px; background:var(--surface-1); border-radius:var(--radius-md); border:1px solid var(--surface-line); }
+  .lab { margin-top:12px; font-family:var(--font-body); font-size:11.5px; color:var(--grey); font-weight:700; text-align:center; }
+  .lab span { display:block; color:var(--text-muted); font-weight:500; }
+  .orange { background:var(--grad-orange-flat); border:none; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div>
+      <div class="box" style="box-shadow:var(--shadow-sm)"></div>
+      <div class="lab">Card sm<span>--shadow-sm</span></div>
+    </div>
+    <div>
+      <div class="box" style="box-shadow:var(--shadow-card)"></div>
+      <div class="lab">Card<span>--shadow-card</span></div>
+    </div>
+    <div>
+      <div class="box orange" style="box-shadow:var(--glow-md)"></div>
+      <div class="lab">Glow md<span>--glow-md</span></div>
+    </div>
+    <div>
+      <div class="box orange" style="box-shadow:var(--glow-cta)"></div>
+      <div class="lab">CTA glow<span>--glow-cta</span></div>
+    </div>
+  </div>
+</body>
+</html>

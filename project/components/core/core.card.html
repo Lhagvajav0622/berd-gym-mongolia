@@ -1,0 +1,61 @@
+<!-- @dsCard group="Components" viewport="700x430" name="Buttons, badges & input" subtitle="Core controls — molten CTA, variants, pills, dark field" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { padding: 26px; }
+  .grid { display:flex; flex-direction:column; gap:22px; }
+  .row { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .cap { font-family:var(--font-display); text-transform:uppercase; letter-spacing:.14em; font-size:11px; color:var(--text-muted); margin-bottom:11px; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Button, Badge, Input } = window.BERDGYMDesignSystem_75db46;
+    function Demo() {
+      return (
+        <div className="grid">
+          <div>
+            <div className="cap">Variants</div>
+            <div className="row">
+              <Button>Гишүүн болох</Button>
+              <Button variant="secondary">Дэлгэрэнгүй</Button>
+              <Button variant="dark">Залгах</Button>
+              <Button variant="ghost" iconRight="→">Үнэ харах</Button>
+            </div>
+          </div>
+          <div>
+            <div className="cap">Sizes · icon · disabled</div>
+            <div className="row">
+              <Button size="lg" icon="＋">Бүртгүүлэх</Button>
+              <Button size="md" variant="secondary">Дунд</Button>
+              <Button size="sm" variant="dark">Жижиг</Button>
+              <Button disabled>Идэвхгүй</Button>
+            </div>
+          </div>
+          <div>
+            <div className="cap">Badges</div>
+            <div className="row">
+              <Badge>Хамгийн эрэлттэй</Badge>
+              <Badge variant="outline">Шинэ</Badge>
+              <Badge variant="dark">06:00–22:00</Badge>
+            </div>
+          </div>
+          <div className="row" style={{alignItems:'flex-end'}}>
+            <Input label="Утас" type="tel" prefix="+976" placeholder="8800 0000" style={{flex:'1 1 200px'}} />
+            <Input label="Нэр" placeholder="Таны нэр" style={{flex:'1 1 160px'}} />
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

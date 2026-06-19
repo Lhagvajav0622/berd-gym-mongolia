@@ -1,0 +1,14 @@
+/* BERD GYM — Webfonts
+   Display: Oswald — heavy condensed uppercase, full Cyrillic (incl. Mongolian Ө/Ү).
+            Used for headlines, prices, labels. Skew applied in CSS for the
+            "italic slanted caps" poster energy (Oswald ships no true italic).
+   Body:    Manrope — clean modern sans, Cyrillic coverage, for paragraphs/UI.
+   NOTE: served from Google Fonts CDN. To fully self-host, drop the .woff2 files
+   in assets/fonts/ and replace this @import with local @font-face rules. */
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --font-display: 'Oswald', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

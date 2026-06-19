@@ -1,0 +1,55 @@
+<!-- @dsCard group="Landing — Directions" viewport="430x900" name="Direction B · Timeless Power" subtitle="Greek-statue strength motif, editorial split, orange glow" -->
+<!-- @startingPoint section="Landing" subtitle="Hero direction: Greek-statue timeless-power motif" viewport="430x900" -->
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BERD GYM — Direction B</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  .screen { max-width:430px; margin:0 auto; background:var(--berd-black); min-height:100%; position:relative; overflow:hidden; }
+  .screen::before { content:""; position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:520px; height:520px; background:var(--grad-orange-glow); opacity:.5; pointer-events:none; }
+  header { position:relative; display:flex; align-items:center; justify-content:space-between; padding:16px 18px; }
+  header img { height:34px; }
+  header .ph { font-family:var(--font-display); font-weight:700; font-size:17px; color:var(--orange); }
+  .hero { position:relative; padding:8px 20px 30px; }
+  .eyebrow { font-family:var(--font-display); font-weight:600; text-transform:uppercase; letter-spacing:.2em; color:var(--orange); font-size:12px; text-align:center; }
+  .h1 { font-family:var(--font-display); font-weight:700; text-transform:uppercase; line-height:.86; letter-spacing:-.01em; font-size:58px; color:#fff; text-align:center; margin:12px 0 0; }
+  .h1 .o { color:var(--orange); display:block; transform:skewX(-8deg); }
+  .figframe { position:relative; margin:20px auto 0; width:300px; height:380px; border-radius:200px 200px 18px 18px; overflow:hidden; border:1px solid var(--surface-line-2); box-shadow:var(--glow-md), var(--shadow-card); }
+  .figframe img { width:100%; height:100%; object-fit:cover; object-position:center 8%; filter:contrast(1.05) brightness(1.02); }
+  .figframe::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(14,14,14,.85) 100%); }
+  .quote { position:absolute; bottom:14px; left:0; right:0; text-align:center; font-family:var(--font-display); font-weight:600; text-transform:uppercase; letter-spacing:.06em; font-size:13px; color:#fff; }
+  .priceblock { margin-top:26px; text-align:center; }
+  .term { font-family:var(--font-display); font-weight:600; text-transform:uppercase; color:var(--grey); font-size:14px; letter-spacing:.06em; }
+  .price { font-family:var(--font-display); font-weight:700; text-transform:uppercase; line-height:.82; letter-spacing:-.02em; font-size:118px; background:var(--grad-orange-metal); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 8px 24px rgba(247,148,29,.4)); }
+  .price .k { font-size:.6em; }
+  .sub { font-family:var(--font-body); font-size:13px; color:var(--text-secondary); margin-top:2px; }
+  .cta { margin-top:22px; }
+  .btn-p { width:100%; height:56px; display:inline-flex; align-items:center; justify-content:center; gap:8px; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:.04em; font-size:18px; border-radius:999px; border:none; cursor:pointer; background:var(--grad-orange-metal); color:var(--ink-on-orange); box-shadow:var(--glow-cta), var(--inset-glint); }
+</style>
+</head>
+<body>
+  <div class="screen">
+    <header>
+      <img src="../../assets/logo-berdgym-dark.png" alt="BERD GYM">
+      <span class="ph">86661231</span>
+    </header>
+    <section class="hero">
+      <div class="eyebrow">Цаг хугацаагүй хүч</div>
+      <h1 class="h1">Сонгодог<span class="o">хүч чадал</span></h1>
+      <div class="figframe">
+        <img src="../../assets/imagery/statue-torso.jpg" alt="">
+        <div class="quote">Чулуу шиг бат бөх</div>
+      </div>
+      <div class="priceblock">
+        <div class="term">3 сарын багц</div>
+        <div class="price">160<span class="k">K</span></div>
+        <div class="sub">Эхний 30 хүнд хямдрал хүчинтэй</div>
+      </div>
+      <div class="cta"><button class="btn-p">Гишүүн болох</button></div>
+    </section>
+  </div>
+</body>
+</html>
