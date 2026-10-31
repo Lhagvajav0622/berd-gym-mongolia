@@ -41,8 +41,15 @@ export default async function JoinPage({ params }: { params: Promise<{ id: strin
       <div className="eyebrow">Багц</div>
       <h1 className="display mt-1 text-[44px] leading-[0.95]">{pkg.name}</h1>
       {pkg.subtitle && <p className="mt-2 text-fg-2">{pkg.subtitle}</p>}
-      <div className="mt-4 flex items-baseline gap-2">
-        {pkg.oldPriceMnt ? <span className="display text-muted line-through">{mnt(pkg.oldPriceMnt)}</span> : null}
+      {pkg.oldPriceMnt && pkg.oldPriceMnt > pkg.priceMnt ? (
+        <div className="mt-4 flex items-center gap-2">
+          <span className="display text-[20px] leading-none text-fg-2 line-through decoration-bad decoration-2">{mnt(pkg.oldPriceMnt)}</span>
+          <span className="display rounded-xs bg-bad px-2 py-1 text-[12px] leading-none text-white">
+            {mnt(pkg.oldPriceMnt - pkg.priceMnt)} хэмнэнэ
+          </span>
+        </div>
+      ) : null}
+      <div className="mt-2 flex items-baseline gap-2">
         <span className="display metal-text text-[44px] leading-none">{mnt(pkg.priceMnt)}</span>
         <span className="text-muted">/ {durationLabel(pkg.durationDays)}</span>
       </div>

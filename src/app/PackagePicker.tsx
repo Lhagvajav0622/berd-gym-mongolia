@@ -64,7 +64,16 @@ export function PackagePicker({ packages }: { packages: PickerPackage[] }) {
                 {p.featured && <span className="display bg-orange px-2 py-1 text-[10.5px] tracking-[.12em] text-on-orange">Санал болгох</span>}
               </span>
               <span className="col-start-2 row-start-1 text-right whitespace-nowrap lg:col-start-3 lg:row-span-2">
-                {p.oldPriceMnt ? <span className="display block text-[clamp(13px,1.3vw,16px)] leading-none font-semibold text-muted line-through">{shortMnt(p.oldPriceMnt)}</span> : null}
+                {p.oldPriceMnt && p.oldPriceMnt > p.priceMnt ? (
+                  <span className="flex items-center justify-end gap-2">
+                    <span className="display rounded-xs bg-bad px-1.5 py-0.5 text-[11.5px] leading-none tracking-[.04em] text-white">
+                      −{Math.round((1 - p.priceMnt / p.oldPriceMnt) * 100)}%
+                    </span>
+                    <span className="display text-[clamp(17px,1.8vw,22px)] leading-none text-fg-2 line-through decoration-bad decoration-2">
+                      {shortMnt(p.oldPriceMnt)}
+                    </span>
+                  </span>
+                ) : null}
                 <span className="mt-1 flex items-baseline justify-end gap-1.5">
                   <span className={`display text-[clamp(36px,5.5vw,68px)] leading-[.9] ${on ? "text-orange" : ""}`}>{shortMnt(p.priceMnt)}</span>
                   <span className="text-[clamp(12px,1.2vw,14px)] text-muted">/ {durationLabel(p.durationDays)}</span>
