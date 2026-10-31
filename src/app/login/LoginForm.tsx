@@ -19,6 +19,7 @@ export function LoginForm({ next }: { next: string }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [wait, setWait] = useState(0);
+  const [testCode, setTestCode] = useState<string | null>(null);
 
   useEffect(() => {
     if (wait <= 0) return;
@@ -36,6 +37,9 @@ export function LoginForm({ next }: { next: string }) {
     if (error) return setError(error.message ?? "Код илгээж чадсангүй. Дахин оролдоно уу.");
     setStep("code");
     setWait(60);
+    // Test mode (no SMS provider yet): the server reveals the code. 404 otherwise.
+    const r = await fetch(`/api/test-otp?phone=${p}`, { cache: "no-store" }).catch(() => null);
+    if (r?.ok) setTestCode(((await r.json()) as { code: string | null }).code);
   }
 
   async function verify() {
@@ -92,10 +96,21 @@ export function LoginForm({ next }: { next: string }) {
     >
       <p className="text-fg-2">
         <b className="text-fg">{normalize(phone)}</b> дугаарт код илгээлээ.{" "}
-        <button type="button" className="text-orange underline" onClick={() => { setStep("phone"); setCode(""); setError(null); }}>
+        <button type="button" className="text-orange underline" onClick={() => { setStep("phone"); setCode(""); setError(null); setTestCode(null); }}>
           Солих
         </button>
       </p>
+      {testCode && (
+        <div className="rounded-md border border-warn/40 bg-warn/10 p-3.5 text-[14px] text-warn">
+          Туршилтын горим: SMS холбогдоогүй тул код энд харагдаж байна.
+          <div className="mt-2 flex items-center justify-between">
+            <span className="display text-[26px] tracking-[.3em] text-fg">{testCode}</span>
+            <button type="button" className="text-orange underline" onClick={() => setCode(testCode)}>
+              Бөглөх
+            </button>
+          </div>
+        </div>
+      )}
       <Field label="Баталгаажуулах код">
         <Input
           inputMode="numeric"

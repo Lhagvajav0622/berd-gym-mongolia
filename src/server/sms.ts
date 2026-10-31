@@ -49,6 +49,12 @@ export async function sendSms(to: string, text: string): Promise<void> {
   throw new Error(`Unknown SMS_PROVIDER: ${provider}`);
 }
 
+/** True while no SMS provider is set and test SMS is allowed (codes are shown on the login page). */
+export function testSmsMode(): boolean {
+  if (process.env.SMS_PROVIDER) return false;
+  return process.env.NODE_ENV !== "production" || process.env.ALLOW_TEST_SMS === "1";
+}
+
 export function otpMessage(code: string): string {
   return `${BRAND.smsName}: tany batalgaajuulah kod ${code}. 5 minutad huchintei. Busdad bitgii heleerei.`;
 }
