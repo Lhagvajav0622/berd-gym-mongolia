@@ -1,4 +1,5 @@
 import { asc, eq } from "drizzle-orm";
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { durationLabel } from "@/components/format";
@@ -34,6 +35,9 @@ export default async function JoinPage({ params }: { params: Promise<{ id: strin
 
   return (
     <AppShell user={u}>
+      <Link href="/#price" className="mb-4 inline-flex items-center gap-1.5 text-[14px] text-fg-2 hover:text-fg">
+        ← Багц солих
+      </Link>
       <div className="eyebrow">Багц</div>
       <h1 className="display mt-1 text-[44px] leading-[0.95]">{pkg.name}</h1>
       {pkg.subtitle && <p className="mt-2 text-fg-2">{pkg.subtitle}</p>}

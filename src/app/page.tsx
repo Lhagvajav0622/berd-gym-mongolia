@@ -1,12 +1,11 @@
 import { asc } from "drizzle-orm";
-import Link from "next/link";
-import { durationLabel } from "@/components/format";
 import { ButtonLink, Container, Logo, shortMnt } from "@/components/ui";
 import { db, schema } from "@/server/db";
 import { listPackages } from "@/server/gym";
 import { getCurrentUser } from "@/server/session";
 import { getSettings } from "@/server/settings";
 import { BRAND } from "@/brand";
+import { PackagePicker } from "./PackagePicker";
 import { PromoBanner } from "./PromoBanner";
 
 export const dynamic = "force-dynamic";
@@ -52,9 +51,6 @@ export default async function Home() {
       .from(schema.galleryPhotos)
       .orderBy(asc(schema.galleryPhotos.sortOrder), asc(schema.galleryPhotos.createdAt)),
   ]);
-  const cheapestMonthly = packages.length
-    ? Math.min(...packages.map((p) => Math.round(p.priceMnt / Math.max(1, Math.round(p.durationDays / 30)))))
-    : 0;
   const gallery = photos.length
     ? photos.map((p) => ({ src: `/api/gallery/${p.id}`, caption: p.caption }))
     : [];
@@ -107,8 +103,8 @@ export default async function Home() {
               <ButtonLink href="#price" className="flex-1 lg:flex-none">
                 Гишүүн болох
               </ButtonLink>
-              <ButtonLink href={gallery.length ? "#gallery" : "#pt"} variant="secondary">
-                {gallery.length ? "Заал үзэх" : "Дасгалжуулагч"}
+              <ButtonLink href={gallery.length ? "#gallery" : "#why"} variant="secondary">
+                {gallery.length ? "Заал үзэх" : "Дэлгэрэнгүй"}
               </ButtonLink>
             </div>
           </div>
@@ -148,35 +144,18 @@ export default async function Home() {
           <p className="mt-4 max-w-[560px] text-[clamp(16px,1.5vw,18.5px)] leading-relaxed text-fg-2">
             Хоног тань төлсөн өдрөөс биш, <b className="text-fg">анх QR уншуулж орсон өдрөөс</b> тоологдоно. Шаардлагатай үед хоногоо зогсоож болно.
           </p>
-          <div className="mt-[clamp(34px,5vw,56px)] flex flex-col gap-[clamp(12px,1.6vw,18px)]">
-            {packages.map((p) => (
-              <Link
-                key={p.id}
-                href={`/join/${p.id}`}
-                className={`group grid grid-cols-[1fr_auto] items-center gap-x-[clamp(16px,3vw,48px)] gap-y-3 rounded-lg border px-[clamp(18px,2.4vw,34px)] py-[clamp(22px,3vw,36px)] transition hover:bg-surface-2 lg:grid-cols-[1fr_auto_auto] ${p.featured ? "border-orange bg-orange/[.06]" : "border-line-2 bg-surface-1"}`}
-              >
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-baseline gap-3">
-                    <span className="display text-[clamp(24px,3vw,40px)] leading-none">{p.name}</span>
-                    {p.featured && <span className="display bg-orange px-2 py-1 text-[11px] tracking-[.12em] text-on-orange">Санал болгох</span>}
-                  </div>
-                  <div className="mt-2.5 text-[clamp(13.5px,1.4vw,16px)] leading-normal text-fg-2">
-                    {[p.subtitle, ...p.features].filter(Boolean).join(" · ")}
-                  </div>
-                </div>
-                <div className="text-right whitespace-nowrap">
-                  {p.oldPriceMnt ? <div className="display text-[clamp(13px,1.3vw,16px)] leading-none font-semibold text-muted line-through">{shortMnt(p.oldPriceMnt)}</div> : null}
-                  <div className="mt-1 flex items-baseline justify-end gap-1.5">
-                    <span className={`display text-[clamp(40px,5.5vw,68px)] leading-[.9] ${p.featured ? "text-orange" : ""}`}>{shortMnt(p.priceMnt)}</span>
-                    <span className="text-[clamp(12px,1.2vw,14px)] text-muted">/ {durationLabel(p.durationDays)}</span>
-                  </div>
-                </div>
-                <span className="hidden size-[52px] items-center justify-center justify-self-end rounded-full border border-line-2 text-[22px] transition group-hover:translate-x-1 group-hover:border-orange group-hover:bg-orange group-hover:text-on-orange lg:inline-flex">
-                  →
-                </span>
-              </Link>
-            ))}
-          </div>
+          <PackagePicker
+            packages={packages.map((p) => ({
+              id: p.id,
+              name: p.name,
+              subtitle: p.subtitle,
+              features: p.features,
+              durationDays: p.durationDays,
+              priceMnt: p.priceMnt,
+              oldPriceMnt: p.oldPriceMnt,
+              featured: p.featured,
+            }))}
+          />
           <p className="mt-6 text-[14px] text-grey">
             + Шүүгээ түрээс: сард {shortMnt(settings.lockerMonthlyPriceMnt)}, багц авахдаа нэмж сонгоно.
           </p>
@@ -232,7 +211,7 @@ export default async function Home() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="border-t border-line bg-ink pt-[clamp(44px,6vw,72px)] pb-32 lg:pb-16">
+      <footer id="contact" className="border-t border-line bg-ink pt-[clamp(44px,6vw,72px)] pb-28 lg:pb-16">
         <Container>
           <div className="flex flex-col justify-between gap-[clamp(28px,4vw,64px)] lg:flex-row">
             <div className="max-w-[360px]">
@@ -268,18 +247,6 @@ export default async function Home() {
         </Container>
       </footer>
 
-      {/* Sticky mobile CTA */}
-      <div className="fixed bottom-0 left-1/2 z-40 flex w-full max-w-[480px] -translate-x-1/2 items-center gap-3 bg-[linear-gradient(180deg,rgba(14,14,14,0)_0%,var(--color-ink)_32%)] px-4 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] lg:hidden">
-        {cheapestMonthly > 0 && (
-          <div className="shrink-0">
-            <div className="text-[12.5px] text-fg-2">Багцууд</div>
-            <div className="display metal-text text-[23px] leading-none">{shortMnt(cheapestMonthly)}-аас</div>
-          </div>
-        )}
-        <ButtonLink href={user ? "/me" : "#price"} full>
-          {user ? "Миний QR" : "Гишүүн болох"}
-        </ButtonLink>
-      </div>
     </div>
   );
 }

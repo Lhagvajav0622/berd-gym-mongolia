@@ -36,40 +36,34 @@ export default async function MembersPage({ searchParams }: { searchParams: Prom
       <form className="mt-4 flex gap-2">
         <Input name="q" defaultValue={q} placeholder="Утас эсвэл нэрээр хайх" />
       </form>
-      <div className="mt-4 overflow-x-auto rounded-md border border-line">
-        <table className="w-full min-w-[640px] text-left text-[14px]">
-          <thead className="bg-surface-1 text-grey">
-            <tr>
-              <th className="px-3 py-2 font-medium">Нэр</th>
-              <th className="px-3 py-2 font-medium">Утас</th>
-              <th className="px-3 py-2 font-medium">Багц</th>
-              <th className="px-3 py-2 font-medium">Төлөв</th>
-              <th className="px-3 py-2 text-right font-medium">Үлдсэн</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-line">
-            {users.map((u) => {
-              const mine = ms.filter((m) => m.userId === u.id).map((m) => withState(m, today, rules));
-              const cur = pickForEntry(mine);
-              return (
-                <tr key={u.id} className="hover:bg-surface-1">
-                  <td className="px-3 py-2">
-                    <Link href={`/admin/members/${u.id}`} className="font-semibold hover:text-orange">
-                      {u.name}
-                    </Link>
-                    {u.role !== "member" && <span className="ml-2 text-[12px] text-orange">{ROLE[u.role]}</span>}
-                    {!u.profileComplete && <span className="ml-2 text-[12px] text-warn">зураггүй</span>}
-                  </td>
-                  <td className="px-3 py-2 text-fg-2">{u.phoneNumber}</td>
-                  <td className="px-3 py-2">{cur?.packageName ?? "—"}</td>
-                  <td className="px-3 py-2">{cur ? <Badge tone={PHASE_TONE[cur.state.phase]}>{PHASE_LABEL[cur.state.phase]}</Badge> : <span className="text-muted">Багцгүй</span>}</td>
-                  <td className="px-3 py-2 text-right">{cur ? `${cur.state.daysLeft} хоног` : ""}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <ul className="mt-4 divide-y divide-line overflow-hidden rounded-md border border-line">
+        {users.map((u) => {
+          const mine = ms.filter((m) => m.userId === u.id).map((m) => withState(m, today, rules));
+          const cur = pickForEntry(mine);
+          return (
+            <li key={u.id}>
+              <Link href={`/admin/members/${u.id}`} className="flex items-center gap-3 px-4 py-3 hover:bg-surface-1">
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-semibold">
+                    {u.name}
+                    {u.role !== "member" && <span className="ml-2 text-[12px] font-normal text-orange">{ROLE[u.role]}</span>}
+                    {!u.profileComplete && <span className="ml-2 text-[12px] font-normal text-warn">зураггүй</span>}
+                  </span>
+                  <span className="block text-[13px] text-grey">
+                    {u.phoneNumber}
+                    {cur ? ` · ${cur.packageName}` : ""}
+                  </span>
+                </span>
+                <span className="flex shrink-0 flex-col items-end gap-1">
+                  {cur ? <Badge tone={PHASE_TONE[cur.state.phase]}>{PHASE_LABEL[cur.state.phase]}</Badge> : <span className="text-[13px] text-muted">Багцгүй</span>}
+                  {cur && <span className="text-[13px] text-fg-2">{cur.state.daysLeft} хоног</span>}
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+        {users.length === 0 && <li className="px-4 py-3 text-grey">Олдсонгүй.</li>}
+      </ul>
     </div>
   );
 }

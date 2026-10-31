@@ -46,6 +46,19 @@ export default async function MePage() {
         </div>
       </div>
 
+      {u.role !== "member" && (
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <ButtonLink href="/desk" size="md">
+            Ресепшн
+          </ButtonLink>
+          {u.role === "admin" && (
+            <ButtonLink href="/admin" size="md" variant="dark">
+              Админ
+            </ButtonLink>
+          )}
+        </div>
+      )}
+
       {pending.map((p) => (
         <Link key={p.id} href={`/pay/${p.id}`} className="mt-5 block rounded-lg border border-warn/40 bg-warn/10 p-4">
           <div className="font-semibold text-warn">Төлбөр хүлээгдэж байна · {mnt(p.amountMnt)}</div>
