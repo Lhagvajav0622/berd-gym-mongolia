@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { confirmCash } from "@/app/actions/admin";
+import { SellCash } from "@/app/admin/members/[id]/MemberControls";
 import { admit, previewMember, scanEntry, searchMembers } from "@/app/actions/desk";
 import { fmtDay, fmtTime, PHASE_TONE } from "@/components/format";
 import { Badge, Button, ErrorText, Input, mnt } from "@/components/ui";
@@ -76,7 +77,9 @@ function beep(ok: boolean) {
   navigator.vibrate?.(ok ? 60 : [80, 60, 80]);
 }
 
-export function Desk() {
+type DeskPackage = { id: string; name: string; price: number; lockerAllowed: boolean };
+
+export function Desk({ initialUserId, packages, freeLockers }: { initialUserId: string | null; packages: DeskPackage[]; freeLockers: number }) {
   const router = useRouter();
   const [preview, setPreview] = useState<EntryPreview | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -85,6 +88,24 @@ export function Desk() {
   const [q, setQ] = useState("");
   const [results, setResults] = useState<{ id: string; name: string; phone: string | null }[]>([]);
   const busy = useRef(false);
+
+  // Opened right after registering a walk-in: show that member ready to admit.
+  useEffect(() => {
+    if (!initialUserId) return;
+    busy.current = true;
+    void previewMember(initialUserId).then((p) => {
+      if (p.ok) {
+        setPreview(p.data!);
+        setDone("Бүртгэж, бэлэн мөнгийг баталгаажууллаа. Одоо оруулж болно.");
+      }
+    });
+  }, [initialUserId]);
+
+  const refreshPreview = (userId: string) =>
+    start(async () => {
+      const p = await previewMember(userId);
+      if (p.ok) setPreview(p.data!);
+    });
 
   const onScan = useCallback((text: string) => {
     if (busy.current) return;
@@ -113,7 +134,6 @@ export function Desk() {
 
   return (
     <div className="space-y-4">
-      <h1 className="display text-[32px] leading-none">Ресепшн</h1>
 
       {!preview && <Scanner onResult={onScan} paused={!!preview} />}
       {done && <p className="rounded-md bg-ok/15 px-4 py-3 font-semibold text-ok">{done}</p>}
@@ -168,6 +188,12 @@ export function Desk() {
               </div>
             ))}
             <p className={`text-[16px] font-semibold ${preview.canEnter ? "text-ok" : "text-bad"}`}>{preview.message}</p>
+            {!preview.membership && preview.pendingCash.length === 0 && packages.length > 0 && (
+              <div>
+                <div className="eyebrow mb-2">Бэлнээр багц зарах</div>
+                <SellCash userId={preview.user.id} packages={packages} freeLockers={freeLockers} onDone={() => refreshPreview(preview.user.id)} />
+              </div>
+            )}
             {preview.enteredToday > 0 && (
               <p className="rounded-md bg-warn/10 px-3 py-2 text-[14px] text-warn">
                 Өнөөдөр {preview.enteredToday} удаа орсон байна (сүүлд {fmtTime(preview.lastEntry).split(" ").pop()}).
@@ -225,6 +251,8 @@ export function Desk() {
                   onClick={() =>
                     start(async () => {
                       busy.current = true;
+                      setDone(null);
+                      setError(null);
                       const p = await previewMember(r.id);
                       if (p.ok) setPreview(p.data!);
                       else setError(p.error);

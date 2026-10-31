@@ -12,12 +12,13 @@ export function PaymentActions({ id }: { id: string }) {
       <Button
         size="sm"
         disabled={pending}
-        onClick={() =>
+        onClick={() => {
+          if (!confirm("Бэлэн мөнгийг бүрэн авсан уу?")) return;
           start(async () => {
             const r = await confirmCash(id);
             if (!r.ok) setError(r.error);
-          })
-        }
+          });
+        }}
       >
         Мөнгө авсан
       </Button>

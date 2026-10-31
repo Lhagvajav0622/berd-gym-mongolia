@@ -116,7 +116,7 @@ export function MembershipActions({ id, locker, lockerCount }: { id: string; loc
   );
 }
 
-export function SellCash({ userId, packages, freeLockers }: { userId: string; packages: { id: string; name: string; price: number; lockerAllowed: boolean }[]; freeLockers: number }) {
+export function SellCash({ userId, packages, freeLockers, onDone }: { userId: string; packages: { id: string; name: string; price: number; lockerAllowed: boolean }[]; freeLockers: number; onDone?: () => void }) {
   const [pkg, setPkg] = useState(packages[0]?.id ?? "");
   const [locker, setLocker] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -146,6 +146,7 @@ export function SellCash({ userId, packages, freeLockers }: { userId: string; pa
             const r = await sellCash({ userId, packageId: pkg, withLocker: locker });
             if (!r.ok) return setError(r.error);
             setOk(true);
+            onDone?.();
             setLocker(false);
           });
         }}

@@ -88,19 +88,21 @@ export async function confirmCash(paymentId: string) {
 
 export async function cancelPaymentAdmin(paymentId: string) {
   return run(async () => {
-    await requireRole([...ADMIN]);
+    await requireRole([...STAFF]);
     const p = await cancelPayment(paymentId);
     if (p?.qpayInvoiceId) await cancelInvoice(p.qpayInvoiceId);
     revalidatePath("/admin", "layout");
+    revalidatePath("/desk");
   });
 }
 
 /** Walk-in: admin sells a package at the desk for cash, paid immediately. */
 export async function sellCash(input: { userId: string; packageId: string; withLocker: boolean }) {
   return run(async () => {
-    const u = await requireRole([...ADMIN]);
+    const u = await requireRole([...STAFF]);
     const { payment } = await createOrder({ userId: input.userId, packageId: input.packageId, withLocker: input.withLocker, method: "cash" });
     await markPaid(payment.id, u.id);
+    revalidatePath("/desk");
     revalidatePath("/admin", "layout");
   });
 }

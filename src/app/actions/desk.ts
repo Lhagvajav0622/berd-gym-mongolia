@@ -3,7 +3,8 @@
 import { eq, ilike, or, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db, schema } from "@/server/db";
-import { confirmEntry, entryPreview, type EntryPreview } from "@/server/gym";
+import { confirmEntry, createOrder, entryPreview, markPaid, type EntryPreview } from "@/server/gym";
+import { createMember } from "./admin";
 import { RuleError } from "@/server/membership";
 import { readEntryToken } from "@/server/qr-token";
 import { requireRole } from "@/server/session";
@@ -68,5 +69,23 @@ export async function searchMembers(q: string) {
       .from(schema.user)
       .where(or(ilike(schema.user.phoneNumber, `%${term.replace(/\s/g, "")}%`), ilike(schema.user.name, `%${term}%`)))
       .limit(10);
+  });
+}
+
+/**
+ * Walk-in at the desk: register the person (phone, name, face photo), sell a
+ * package for cash and mark it paid, all in one step.
+ */
+export async function registerWalkIn(input: { phone: string; name: string; photo: string | null; packageId: string; withLocker: boolean }) {
+  return run(async () => {
+    const staff = await requireRole([...STAFF]);
+    if (!input.photo) throw new RuleError("Царайны зураг авна уу.");
+    const created = await createMember({ phone: input.phone, name: input.name, photo: input.photo });
+    if (!created.ok) throw new RuleError(created.error);
+    const userId = created.data!.id;
+    const { payment } = await createOrder({ userId, packageId: input.packageId, withLocker: input.withLocker, method: "cash" });
+    await markPaid(payment.id, staff.id);
+    revalidatePath("/desk");
+    return { userId };
   });
 }
