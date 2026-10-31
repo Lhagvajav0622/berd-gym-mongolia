@@ -1,6 +1,6 @@
 "use server";
 
-import { ilike, or } from "drizzle-orm";
+import { eq, ilike, or, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db, schema } from "@/server/db";
 import { confirmEntry, entryPreview, type EntryPreview } from "@/server/gym";
@@ -53,6 +53,16 @@ export async function searchMembers(q: string) {
     await requireRole([...STAFF]);
     const term = q.trim().replace(/[%_]/g, "");
     if (term.length < 3) return [];
+    // Cash order code shown on the member's phone (first 8 characters of the payment id).
+    if (/^[0-9a-f]{8}$/i.test(term)) {
+      const byCode = await db
+        .select({ id: schema.user.id, name: schema.user.name, phone: schema.user.phoneNumber })
+        .from(schema.payments)
+        .innerJoin(schema.user, eq(schema.user.id, schema.payments.userId))
+        .where(sql`${schema.payments.id}::text like ${term.toLowerCase() + "%"}`)
+        .limit(5);
+      if (byCode.length) return byCode;
+    }
     return db
       .select({ id: schema.user.id, name: schema.user.name, phone: schema.user.phoneNumber })
       .from(schema.user)

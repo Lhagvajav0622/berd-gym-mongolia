@@ -181,6 +181,8 @@ export type EntryPreview = {
   lastEntry: Date | null;
   canEnter: boolean;
   message: string;
+  /** Cash orders waiting at the desk: take the money, confirm, then admit. */
+  pendingCash: { id: string; amountMnt: number; code: string; packageName: string }[];
 };
 
 export async function entryPreview(userId: string): Promise<EntryPreview | null> {
@@ -219,6 +221,11 @@ export async function entryPreview(userId: string): Promise<EntryPreview | null>
     message = `${m.state.daysLeft} хоног үлдсэн.`;
   }
   if (!photo) message += " Царайны зураг байхгүй.";
+  const cash = await db
+    .select({ id: schema.payments.id, amountMnt: schema.payments.amountMnt, packageName: schema.memberships.packageName })
+    .from(schema.payments)
+    .innerJoin(schema.memberships, eq(schema.memberships.id, schema.payments.membershipId))
+    .where(and(eq(schema.payments.userId, userId), eq(schema.payments.status, "pending"), eq(schema.payments.method, "cash")));
 
   return {
     user: { id: u.id, name: u.name, phone: u.phoneNumber, hasPhoto: !!photo, profileComplete: u.profileComplete },
@@ -227,6 +234,7 @@ export async function entryPreview(userId: string): Promise<EntryPreview | null>
     lastEntry: visits[0]?.createdAt ?? null,
     canEnter,
     message,
+    pendingCash: cash.map((c) => ({ ...c, code: c.id.slice(0, 8).toUpperCase() })),
   };
 }
 

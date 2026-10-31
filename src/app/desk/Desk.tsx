@@ -2,9 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
+import { confirmCash } from "@/app/actions/admin";
 import { admit, previewMember, scanEntry, searchMembers } from "@/app/actions/desk";
 import { fmtDay, fmtTime, PHASE_TONE } from "@/components/format";
-import { Badge, Button, ErrorText, Input } from "@/components/ui";
+import { Badge, Button, ErrorText, Input, mnt } from "@/components/ui";
 import type { EntryPreview } from "@/server/gym";
 
 const PHASE_LABEL: Record<string, string> = {
@@ -140,6 +141,32 @@ export function Desk() {
               </div>
             )}
             {m?.state.endOn && m.state.phase === "active" && <div className="text-[14px] text-fg-2">Дуусах: {fmtDay(m.state.endOn)}</div>}
+            {preview.pendingCash.map((c) => (
+              <div key={c.id} className="rounded-md border border-warn/50 bg-warn/10 p-3.5">
+                <div className="text-[14px] text-warn">Бэлэн төлбөр · код {c.code}</div>
+                <div className="mt-0.5 flex items-center justify-between gap-3">
+                  <div>
+                    <div className="display text-[26px] leading-none">{mnt(c.amountMnt)}</div>
+                    <div className="text-[13px] text-fg-2">{c.packageName}</div>
+                  </div>
+                  <Button
+                    size="md"
+                    disabled={pending}
+                    onClick={() => {
+                      if (!confirm(`${mnt(c.amountMnt)} бэлнээр авсан уу?`)) return;
+                      start(async () => {
+                        const r = await confirmCash(c.id);
+                        if (!r.ok) return setError(r.error);
+                        const p = await previewMember(preview.user.id);
+                        if (p.ok) setPreview(p.data!);
+                      });
+                    }}
+                  >
+                    Мөнгө авсан
+                  </Button>
+                </div>
+              </div>
+            ))}
             <p className={`text-[16px] font-semibold ${preview.canEnter ? "text-ok" : "text-bad"}`}>{preview.message}</p>
             {preview.enteredToday > 0 && (
               <p className="rounded-md bg-warn/10 px-3 py-2 text-[14px] text-warn">
@@ -172,7 +199,7 @@ export function Desk() {
 
       {!preview && (
         <details className="rounded-md bg-surface-1 p-4">
-          <summary className="cursor-pointer text-[14px] text-fg-2">Утас нь асахгүй байвал: дугаар, нэрээр хайх</summary>
+          <summary className="cursor-pointer text-[14px] text-fg-2">QR-гүй бол: утас, нэр эсвэл захиалгын кодоор хайх</summary>
           <form
             className="mt-3 flex gap-2"
             onSubmit={(e) => {
@@ -184,7 +211,7 @@ export function Desk() {
               });
             }}
           >
-            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="9911 2233 эсвэл нэр" />
+            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Утас, нэр эсвэл код" />
             <Button type="submit" size="md" variant="dark">
               Хайх
             </Button>

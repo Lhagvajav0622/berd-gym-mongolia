@@ -78,10 +78,11 @@ export async function deletePackage(id: string) {
 
 export async function confirmCash(paymentId: string) {
   return run(async () => {
-    const u = await requireRole([...ADMIN]);
+    const u = await requireRole([...STAFF]);
     const ok = await markPaid(paymentId, u.id);
     if (!ok) throw new RuleError("Энэ төлбөр аль хэдийн баталгаажсан эсвэл цуцлагдсан.");
     revalidatePath("/admin", "layout");
+    revalidatePath("/desk");
   });
 }
 

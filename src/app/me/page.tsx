@@ -121,7 +121,7 @@ export default async function MePage() {
         </Card>
       )}
 
-      {current && current.state.phase !== "pending_payment" && (
+      {(current || pending.length > 0) && (
         <Card className="mt-5 p-5">
           <div className="eyebrow mb-4 text-center">Орох QR</div>
           <EntryQR />
