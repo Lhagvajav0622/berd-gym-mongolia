@@ -88,9 +88,25 @@ export function Container({ className = "", ...rest }: ComponentProps<"div">) {
   return <div className={`mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-12 ${className}`} {...rest} />;
 }
 
+/** Temporary wordmark until the gym sends its own logo file. */
 export function Logo({ className = "h-8" }: { className?: string }) {
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img src="/img/logo-berdgym-dark.png" alt="BERD GYM MONGOLIA" className={`w-auto ${className}`} />;
+  return (
+    <svg viewBox="0 0 168 40" role="img" aria-label="SPARTA FITNESS" className={`w-auto ${className}`}>
+      {/* crested helmet mark */}
+      <path d="M17 2c-4 0-7 2-8 5 3-1 6-1 8 0 2-1 5-1 8 0-1-3-4-5-8-5z" fill="#F7941D" />
+      <path
+        d="M17 8C9 8 4 14 4 22v13c0 2 1 3 3 3h5V25c0-2 1-3 3-3h4c2 0 3 1 3 3v13h5c2 0 3-1 3-3V22c0-8-5-14-13-14z"
+        fill="#F7941D"
+      />
+      <path d="M15 22h4v16h-4z" fill="#0E0E0E" />
+      <text x="40" y="25" fill="#fff" style={{ font: "700 26px var(--font-display)", letterSpacing: "0.02em" }}>
+        SPARTA
+      </text>
+      <text x="41" y="38" fill="#F7941D" style={{ font: "600 10px var(--font-display)", letterSpacing: "0.42em" }}>
+        FITNESS
+      </text>
+    </svg>
+  );
 }
 
 export function mnt(n: number) {

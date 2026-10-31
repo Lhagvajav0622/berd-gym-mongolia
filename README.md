@@ -1,6 +1,6 @@
-# BERD GYM MONGOLIA — гишүүнчлэлийн систем
+# SPARTA FITNESS — гишүүнчлэлийн систем
 
-Сайт, гишүүний QR, ресепшн, админ нэг дор. Стек нь Mhub-тэй ижил:
+Сайт, гишүүний QR, ресепшн, админ нэг дор. Нэр, утас, хаяг зэрэг брэндийн мэдээлэл бүгд `src/brand.ts` файлд. Стек нь Mhub-тэй ижил:
 **Next.js 15 + TypeScript + Tailwind 4 + Drizzle + Postgres (Neon) + Better Auth**, Vercel дээр байрлана.
 
 ## Юу хийдэг вэ
@@ -59,5 +59,5 @@ CallPro-ийн API баримт нээлттэй биш тул `src/server/sms.t
 src/server/      membership.ts (хоног), gym.ts (захиалга, орох, шүүгээ), qpay.ts, sms.ts, auth.ts, db/schema.ts
 src/app/         хуудсууд; actions/ дотор серверийн үйлдлүүд
 drizzle/         migration файлууд (схем өөрчилбөл: npm run db:generate)
-design/          Claude Design-аас ирсэн анхны дизайн
+design/          Claude Design-аас ирсэн анхны дизайн (BERD GYM нэрээр хийгдсэн, өнгө, хэв маяг нь хэвээр)
 ```

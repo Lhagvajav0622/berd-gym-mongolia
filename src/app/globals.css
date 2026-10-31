@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* BERD GYM tokens, from design/project/tokens */
+/* Brand tokens (orange on near-black), from design/project/tokens */
 @theme {
   --font-display: "Oswald Variable", "Arial Narrow", system-ui, sans-serif;
   --font-body: "Manrope Variable", system-ui, -apple-system, "Segoe UI", sans-serif;

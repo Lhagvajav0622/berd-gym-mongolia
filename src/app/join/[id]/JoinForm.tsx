@@ -111,15 +111,19 @@ export function JoinForm(p: Props) {
               <h2 className="display text-[22px]">Анхааруулга</h2>
             </div>
             <p className="mt-3 leading-relaxed">{p.notice}</p>
-            <div className="mt-4 grid grid-cols-3 gap-1.5">
-              {p.photos.slice(0, 6).map((src) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={src} src={src} alt="" className="aspect-square w-full rounded-xs object-cover" />
-              ))}
-            </div>
-            <a href="/#gallery" target="_blank" className="mt-2 inline-block text-[14px] text-orange underline">
-              Заал, тоноглолын бүх зургийг үзэх
-            </a>
+            {p.photos.length > 0 && (
+              <>
+                <div className="mt-4 grid grid-cols-3 gap-1.5">
+                  {p.photos.slice(0, 6).map((src) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img key={src} src={src} alt="" className="aspect-square w-full rounded-xs object-cover" />
+                  ))}
+                </div>
+                <a href="/#gallery" target="_blank" className="mt-2 inline-block text-[14px] text-orange underline">
+                  Заал, тоноглолын бүх зургийг үзэх
+                </a>
+              </>
+            )}
             <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-md bg-surface-2 p-3.5">
               <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-1 size-5 accent-[#F7941D]" />
               <span className="text-[15px]">Би заал, тоноглолтой танилцсан. Төлбөр буцаагдахгүйг ойлгосон.</span>

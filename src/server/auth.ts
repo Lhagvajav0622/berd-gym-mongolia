@@ -41,7 +41,7 @@ export const auth = betterAuth({
       allowedAttempts: 5,
       phoneNumberValidator: (p) => normalizePhone(p) === p,
       signUpOnVerification: {
-        getTempEmail: (p) => `${p}@phone.berdgym.local`,
+        getTempEmail: (p) => `${p}@phone.sparta.local`,
         getTempName: (p) => p,
       },
       async sendOTP({ phoneNumber: phone, code }) {

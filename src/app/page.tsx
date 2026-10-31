@@ -6,12 +6,13 @@ import { db, schema } from "@/server/db";
 import { listPackages } from "@/server/gym";
 import { getCurrentUser } from "@/server/session";
 import { getSettings } from "@/server/settings";
+import { BRAND } from "@/brand";
 import { PromoBanner } from "./PromoBanner";
 
 export const dynamic = "force-dynamic";
 
-const PHONE = "86661231";
-const PHONE2 = "88069560";
+const PHONE = BRAND.phone;
+const PHONE2 = BRAND.phone2;
 
 const FEATURES = [
   "Мэргэжлийн багш дасгалжуулагч",
@@ -56,11 +57,7 @@ export default async function Home() {
     : 0;
   const gallery = photos.length
     ? photos.map((p) => ({ src: `/api/gallery/${p.id}`, caption: p.caption }))
-    : [
-        { src: "/img/coach-class.jpg", caption: "Багштай анги" },
-        { src: "/img/athlete-price.jpg", caption: "Хүчний бэлтгэл" },
-        { src: "/img/statue-torso.jpg", caption: "Заал" },
-      ];
+    : [];
 
   return (
     <div className="overflow-x-hidden">
@@ -70,7 +67,7 @@ export default async function Home() {
         <Container className="flex items-center justify-between gap-6 py-3 lg:py-3.5">
           <Logo className="h-8 lg:h-9" />
           <nav className="mr-2 ml-auto hidden items-center gap-7 lg:flex">
-            {NAV.map((n) => (
+            {NAV.filter((n) => n.href !== "#gallery" || gallery.length).map((n) => (
               <a key={n.href} href={n.href} className="display text-[15.5px] font-semibold tracking-[.05em] text-fg-2 transition hover:text-fg">
                 {n.label}
               </a>
@@ -96,7 +93,7 @@ export default async function Home() {
           <div className="max-w-[760px]">
             <div className="flex items-center gap-3 font-display text-[clamp(11px,1.1vw,13px)] font-semibold tracking-[.2em] text-fg-2 uppercase">
               <span className="h-0.5 w-7 bg-orange" />
-              Улаанбаатар · 2003 оноос
+              {BRAND.city}
             </div>
             <h1 className="display mt-[18px] text-[clamp(56px,8vw,128px)] leading-[.86] tracking-[-.015em]">
               Хүч чинь
@@ -110,8 +107,8 @@ export default async function Home() {
               <ButtonLink href="#price" className="flex-1 lg:flex-none">
                 Гишүүн болох
               </ButtonLink>
-              <ButtonLink href="#gallery" variant="secondary">
-                Заал үзэх
+              <ButtonLink href={gallery.length ? "#gallery" : "#pt"} variant="secondary">
+                {gallery.length ? "Заал үзэх" : "Дасгалжуулагч"}
               </ButtonLink>
             </div>
           </div>
@@ -119,7 +116,7 @@ export default async function Home() {
         <div className="relative border-t border-line-2 bg-ink-deep/50">
           <Container className="flex flex-wrap gap-x-10 gap-y-2 py-3.5 font-display text-[clamp(12px,1.2vw,14px)] font-medium tracking-[.06em] text-fg-2 uppercase">
             <span>06:00–22:00 · өдөр бүр</span>
-            <span>3, 4 хороолол</span>
+            <span>{BRAND.branch}</span>
             <span>QPay · онлайн бүртгэл</span>
           </Container>
         </div>
@@ -128,7 +125,7 @@ export default async function Home() {
       {/* Why */}
       <section id="why" className="py-[clamp(56px,8vw,112px)]">
         <Container>
-          <SectionLabel index="01" kicker="Яагаад БЭРД">
+          <SectionLabel index="01" kicker={`Яагаад ${BRAND.short}`}>
             Бидний давуу тал
           </SectionLabel>
           <div className="mt-[clamp(28px,4vw,48px)]">
@@ -187,6 +184,7 @@ export default async function Home() {
       </section>
 
       {/* Gallery */}
+      {gallery.length > 0 && (
       <section id="gallery" className="scroll-mt-16 py-[clamp(56px,8vw,112px)]">
         <Container>
           <SectionLabel index="03" kicker="Заал, тоноглол">
@@ -196,7 +194,7 @@ export default async function Home() {
             {gallery.map((g, i) => (
               <figure key={g.src} className={`relative overflow-hidden rounded-sm border border-line-2 bg-surface-1 ${i === 0 ? "col-span-2 lg:row-span-2" : ""}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={g.src} alt={g.caption ?? "BERD GYM"} loading="lazy" className="aspect-[4/3] w-full object-cover lg:aspect-auto lg:h-full" />
+                <img src={g.src} alt={g.caption ?? BRAND.name} loading="lazy" className="aspect-[4/3] w-full object-cover lg:aspect-auto lg:h-full" />
                 {g.caption && (
                   <figcaption className="display absolute bottom-2.5 left-3 rounded-full bg-ink/70 px-2.5 py-1 text-[11px] tracking-[.08em]">{g.caption}</figcaption>
                 )}
@@ -205,12 +203,13 @@ export default async function Home() {
           </div>
         </Container>
       </section>
+      )}
 
       {/* PT */}
       <section id="pt" className="bg-ink-deep py-[clamp(56px,8vw,112px)]">
         <Container className="grid items-center gap-[clamp(28px,4vw,64px)] lg:grid-cols-2">
           <div>
-            <SectionLabel index="04" kicker="Хувийн дасгалжуулалт">
+            <SectionLabel index={gallery.length ? "04" : "03"} kicker="Хувийн дасгалжуулалт">
               Үр дүн
               <br />
               харагдана
@@ -227,7 +226,7 @@ export default async function Home() {
           </div>
           <figure className="overflow-hidden rounded-sm border border-line-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/img/transform-strip.jpg" alt="Гишүүдийн үр дүн" loading="lazy" width={836} height={388} className="h-auto w-full" />
+            <img src="/img/statue-torso.jpg" alt="" loading="lazy" className="aspect-[4/3] w-full object-cover object-[center_30%]" />
           </figure>
         </Container>
       </section>
@@ -238,14 +237,14 @@ export default async function Home() {
           <div className="flex flex-col justify-between gap-[clamp(28px,4vw,64px)] lg:flex-row">
             <div className="max-w-[360px]">
               <Logo className="h-[38px]" />
-              <p className="mt-[18px] leading-relaxed text-fg-2">Хүч чинь дотроос эхэлнэ. Улаанбаатар хотын 3, 4 хорооллын салбарт тань хүлээж байна.</p>
+              <p className="mt-[18px] leading-relaxed text-fg-2">{BRAND.tagline}. {BRAND.city}, {BRAND.branch}т тань хүлээж байна.</p>
             </div>
             <div className="grid gap-4 lg:min-w-[460px] lg:grid-cols-2">
               {[
                 { l: "Утас", v: `${PHONE} · ${PHONE2}`, h: `tel:${PHONE}` },
-                { l: "Салбар", v: "3, 4 хороолол салбар" },
-                { l: "Цагийн хуваарь", v: "06:00–22:00, өдөр бүр" },
-                { l: "Facebook", v: "BerdGymMongolia", h: "https://facebook.com/BerdGymMongolia" },
+                { l: "Салбар", v: BRAND.branch },
+                { l: "Цагийн хуваарь", v: BRAND.hours },
+                ...(BRAND.facebook ? [{ l: "Facebook", v: BRAND.facebook, h: `https://facebook.com/${BRAND.facebook}` }] : []),
               ].map((r) => {
                 const inner = (
                   <>
@@ -265,7 +264,7 @@ export default async function Home() {
               })}
             </div>
           </div>
-          <div className="mt-8 border-t border-line pt-[18px] text-[13.5px] text-grey">© {new Date().getFullYear()} BERD GYM MONGOLIA. Бүх эрх хуулиар хамгаалагдсан.</div>
+          <div className="mt-8 border-t border-line pt-[18px] text-[13.5px] text-grey">© {new Date().getFullYear()} {BRAND.name}. Бүх эрх хуулиар хамгаалагдсан.</div>
         </Container>
       </footer>
 

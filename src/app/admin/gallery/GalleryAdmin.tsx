@@ -77,7 +77,7 @@ export function GalleryAdmin({ photos }: { photos: Photo[] }) {
           <Item key={p.id} p={p} />
         ))}
       </div>
-      {photos.length === 0 && <p className="text-grey">Зураг алга. Нэмэх хүртэл сайт дээр брэндийн зургууд харагдана.</p>}
+      {photos.length === 0 && <p className="text-grey">Зураг алга. Зураг нэмэх хүртэл сайтын «Заал» хэсэг нуугдана.</p>}
     </div>
   );
 }

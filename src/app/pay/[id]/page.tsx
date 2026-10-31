@@ -8,6 +8,7 @@ import { ensureInvoice, mockPayAllowed } from "@/server/payments";
 import { qpayMode } from "@/server/qpay";
 import { isStaff, requirePage } from "@/server/session";
 import { PayStatus } from "./PayStatus";
+import { BRAND } from "@/brand";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Төлбөр" };
@@ -23,7 +24,7 @@ export default async function PayPage({ params }: { params: Promise<{ id: string
   let invoiceError: string | null = null;
   if (pay.method === "qpay" && pay.status === "pending") {
     try {
-      pay = await ensureInvoice(pay, `BERD GYM ${m.packageName}`);
+      pay = await ensureInvoice(pay, `${BRAND.short} ${m.packageName}`);
     } catch (e) {
       console.error("[qpay] invoice failed", e);
       invoiceError = "QPay нэхэмжлэх үүсгэж чадсангүй. Түр хүлээгээд дахин оролдоно уу.";

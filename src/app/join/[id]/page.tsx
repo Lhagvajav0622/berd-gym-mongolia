@@ -61,7 +61,7 @@ export default async function JoinPage({ params }: { params: Promise<{ id: strin
           lockerLabel={`${months} сар × ${mnt(settings.lockerMonthlyPriceMnt)}`}
           freeLockers={freeLockers}
           notice={settings.refundNotice}
-          photos={photos.length ? photos.map((p) => `/api/gallery/${p.id}`) : ["/img/coach-class.jpg", "/img/athlete-price.jpg", "/img/statue-torso.jpg"]}
+          photos={photos.map((p) => `/api/gallery/${p.id}`)}
         />
       </div>
     </AppShell>

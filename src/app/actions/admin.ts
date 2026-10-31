@@ -122,7 +122,7 @@ export async function createMember(input: { phone: string; name: string; photo: 
       await tx.insert(schema.user).values({
         id,
         name,
-        email: `${phone}@phone.berdgym.local`,
+        email: `${phone}@phone.sparta.local`,
         phoneNumber: phone,
         phoneNumberVerified: false,
         profileComplete: !!img,

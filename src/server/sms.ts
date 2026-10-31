@@ -1,4 +1,5 @@
 import "server-only";
+import { BRAND } from "@/brand";
 
 /**
  * SMS sending for OTP codes.
@@ -49,5 +50,5 @@ export async function sendSms(to: string, text: string): Promise<void> {
 }
 
 export function otpMessage(code: string): string {
-  return `BERD GYM: tany batalgaajuulah kod ${code}. 5 minutad huchintei. Busdad bitgii heleerei.`;
+  return `${BRAND.smsName}: tany batalgaajuulah kod ${code}. 5 minutad huchintei. Busdad bitgii heleerei.`;
 }

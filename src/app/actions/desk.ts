@@ -8,6 +8,7 @@ import { RuleError } from "@/server/membership";
 import { readEntryToken } from "@/server/qr-token";
 import { requireRole } from "@/server/session";
 import { run } from "./result";
+import { BRAND } from "@/brand";
 
 const STAFF = ["reception", "admin"] as const;
 
@@ -20,7 +21,7 @@ export async function scanEntry(token: string) {
       throw new RuleError(
         t.reason === "expired"
           ? "QR-ийн хугацаа дууссан. Гишүүн апп-аа шинэчилж дахин уншуулна уу (дэлгэцийн зураг байж магадгүй)."
-          : "Энэ BERD GYM-ийн QR биш байна.",
+          : `Энэ ${BRAND.name}-ийн QR биш байна.`,
       );
     const p = await entryPreview(t.userId);
     if (!p) throw new RuleError("Гишүүн олдсонгүй.");
