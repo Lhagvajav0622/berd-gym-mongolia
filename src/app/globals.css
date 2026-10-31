@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* BERD GYM tokens, from design/project/tokens */
+@theme {
+  --font-display: "Oswald Variable", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Manrope Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-ink-deep: #080808;
+  --color-ink: #0e0e0e;
+  --color-surface-1: #1a1a1a;
+  --color-surface-2: #222222;
+  --color-surface-3: #2c2c2c;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-2: rgba(255, 255, 255, 0.16);
+
+  --color-orange: #f7941d;
+  --color-orange-bright: #ffb23e;
+  --color-orange-deep: #e07a0c;
+  --color-on-orange: #140a00;
+
+  --color-fg: #ffffff;
+  --color-fg-2: #b4b4b4;
+  --color-grey: #9a9a9a;
+  --color-muted: #6e6e6e;
+
+  --color-ok: #3ecf8e;
+  --color-warn: #ffb23e;
+  --color-bad: #ff5a4e;
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --shadow-card: 0 14px 40px rgba(0, 0, 0, 0.55);
+  --shadow-cta: 0 12px 34px rgba(247, 148, 29, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+:root {
+  --grad-orange-metal: linear-gradient(177deg, #ffe3a8 0%, #ffb23e 24%, #f7941d 52%, #e07a0c 78%, #b85f05 100%);
+  --grad-hero-scrim: linear-gradient(180deg, rgba(8, 8, 8, 0.2) 0%, rgba(8, 8, 8, 0.55) 45%, rgba(8, 8, 8, 0.94) 100%);
+  color-scheme: dark;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+body {
+  background: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: var(--color-orange);
+  color: var(--color-on-orange);
+}
+
+@utility metal-text {
+  background: var(--grad-orange-metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility bg-metal {
+  background: var(--grad-orange-metal);
+}
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+@utility eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12.5px;
+  color: var(--color-fg-2);
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes pop {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

@@ -1,25 +1,63 @@
-# CODING AGENTS: READ THIS FIRST
+# BERD GYM MONGOLIA — гишүүнчлэлийн систем
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Сайт, гишүүний QR, ресепшн, админ нэг дор. Стек нь Mhub-тэй ижил:
+**Next.js 15 + TypeScript + Tailwind 4 + Drizzle + Postgres (Neon) + Better Auth**, Vercel дээр байрлана.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Юу хийдэг вэ
 
-## What you should do — IMPORTANT
+| Хэн | Хаана | Юу хийнэ |
+|---|---|---|
+| Гишүүн | `/login` | Утас → SMS код (OTP). Анх удаа бол бүртгэл үүснэ |
+| | `/onboarding` | Нэр + царайны зураг (дараа нь өөрөө солих боломжгүй, ресепшн солино) |
+| | `/join/[багц]` | Шүүгээ нэмэх (16 ш, сард 30,000₮), QPay эсвэл бэлэн, **буцаалтгүй гэсэн сануулга + заалны зураг** |
+| | `/pay/[id]` | QPay QR, банкны апп-ын холбоос, төлбөр орохыг автоматаар хүлээнэ |
+| | `/me` | Орох QR (минут тутам шинэчлэгдэнэ), үлдсэн хоног, хоног зогсоох/үргэлжлүүлэх |
+| Ресепшн | `/desk` | Утасны камераар QR уншина → **гишүүний зураг** гарна → нүдээр шалгаад «Оруулах» |
+| Админ | `/admin` | Ирц, орлого, гишүүд, бэлэн төлбөр баталгаажуулах, багц засах, шүүгээ, заалны зураг, тохиргоо |
 
-**Read the chat transcripts first.** There are 2 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+### Дүрмүүд (`src/server/membership.ts`, тесттэй)
+- Хоног **анх QR уншуулсан өдрөөс** тоологдоно, төлсөн өдрөөс биш.
+- Хоног зогсоох: хугацаа хязгааргүй, нэг багцад **3 удаа** (Тохиргооноос өөрчилнө). Тухайн өдөр орсон бол зогсоолт маргаашаас эхэлнэ.
+- Зогссон гишүүн QR уншуулбал автоматаар үргэлжилнэ.
+- Шүүгээ багцтай хамт эхэлж дуусна, үнэ = сарын тоо × 30,000₮. Дугаарыг систем сул байгаагаас оноож, админ сольж болно. Төлөгдөөгүй QPay захиалга шүүгээг 30 минут барина.
+- Орох QR 5 минутын хүчинтэй, гарын үсэгтэй тул дэлгэцийн зураг явуулбал ажиллахгүй.
+- Бэлнээр төлсөн бол админ «Мөнгө авсан» дарж идэвхжүүлнэ, эсвэл гишүүний хуудаснаас шууд зарна.
 
-**Read `project/ui_kits/landing/index.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+## Ажиллуулах
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+```bash
+cp .env.example .env.local   # DATABASE_URL, BETTER_AUTH_SECRET, ADMIN_PHONES-ээ бөглө
+npm install
+npm run db:migrate && npm run db:seed
+npm run dev
+```
 
-## About the design files
+`SMS_PROVIDER` хоосон бол OTP код терминал дээр хэвлэгдэнэ. `QPAY_MODE` хоосон бол туршилтын QR болон «Тест: төлсөн болгох» товч гарна.
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+`npm test` хоног тоолох болон QR-ийн дүрмүүдийг шалгана.
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+## Vercel дээр
 
-## Bundle contents
+1. Vercel → Add New → Project → энэ repo.
+2. Environment Variables: `DATABASE_URL`, `BETTER_AUTH_SECRET`, `PUBLIC_URL`, `ADMIN_PHONES`.
+3. Deploy. Build бүрийн өмнө хүснэгтүүд автоматаар шинэчлэгдэж, багц хоосон бол эхний 3 багц нэмэгдэнэ.
+4. Хамгийн түрүүнд `ADMIN_PHONES` дахь дугаараараа нэвтэрнэ, тэр нь админ болно. Ресепшний ажилтныг админ → Гишүүд → эрх «Ресепшн» болгоно.
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `BERD GYM Design System` project files (HTML prototypes, assets, components)
+## Холбох үлдсэн 2 зүйл
+
+**QPay** (гымийн нэр, данс дээр гэрээ хийсний дараа):
+`QPAY_MODE=live`, `QPAY_CLIENT_ID`, `QPAY_CLIENT_SECRET`, `QPAY_INVOICE_CODE`. Эхлээд `QPAY_MODE=sandbox`-оор шалгаж болно.
+QPay төлбөрийн дараа `/api/qpay/callback` руу дуудна. Систем callback-д итгэхгүй, QPay-ээс `/payment/check`-ээр дахин асууж байж төлсөн гэж тэмдэглэнэ.
+
+**CallPro SMS:** `SMS_PROVIDER=callpro`, `CALLPRO_API_KEY`, `CALLPRO_SENDER`.
+CallPro-ийн API баримт нээлттэй биш тул `src/server/sms.ts` нь MessagePro-ийн `GET /send?from&to&text` + `x-api-key` форматаар бичигдсэн. Түлхүүр авахдаа ирсэн баримттай тулгаж, хэрэв өөр бол зөвхөн тэр файлыг засна.
+Нэг дугаарт минутад 1, цагт 5 код. SMS латинаар явна (160 тэмдэгт, кирилл 70-аас хямд).
+
+## Бүтэц
+
+```
+src/server/      membership.ts (хоног), gym.ts (захиалга, орох, шүүгээ), qpay.ts, sms.ts, auth.ts, db/schema.ts
+src/app/         хуудсууд; actions/ дотор серверийн үйлдлүүд
+drizzle/         migration файлууд (схем өөрчилбөл: npm run db:generate)
+design/          Claude Design-аас ирсэн анхны дизайн
+```
