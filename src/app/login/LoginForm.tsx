@@ -8,7 +8,7 @@ import { authClient } from "@/lib/auth-client";
 function normalize(input: string) {
   let d = input.replace(/\D/g, "");
   if (d.length === 11 && d.startsWith("976")) d = d.slice(3);
-  return /^[6-9]\d{7}$/.test(d) ? d : null;
+  return /^[5-9]\d{7}$/.test(d) ? d : null;
 }
 
 export function LoginForm({ next }: { next: string }) {

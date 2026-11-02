@@ -1,8 +1,8 @@
-/** Mongolian mobile numbers: 8 digits, starting 6–9. Stored without +976. */
+/** Mongolian mobile numbers: 8 digits, starting 5–9. Stored without +976. */
 export function normalizePhone(input: string): string | null {
   let d = input.replace(/\D/g, "");
   if (d.length === 11 && d.startsWith("976")) d = d.slice(3);
-  return /^[6-9]\d{7}$/.test(d) ? d : null;
+  return /^[5-9]\d{7}$/.test(d) ? d : null;
 }
 
 export function formatPhone(p: string | null | undefined): string {
