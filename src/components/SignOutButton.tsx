@@ -1,21 +1,28 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 
 export function SignOutButton() {
-  const router = useRouter();
+  const [busy, setBusy] = useState(false);
   return (
     <button
       type="button"
-      className="hover:text-fg"
+      className="hover:text-fg disabled:opacity-50"
+      disabled={busy}
       onClick={async () => {
-        await authClient.signOut();
-        router.replace("/");
-        router.refresh();
+        setBusy(true);
+        const { error } = await authClient.signOut();
+        if (error) {
+          setBusy(false);
+          alert("Гарч чадсангүй. Хуудсаа дахин ачаалаад оролдоно уу.");
+          return;
+        }
+        // Full reload so no page keeps showing the old login.
+        window.location.href = "/";
       }}
     >
-      Гарах
+      {busy ? "…" : "Гарах"}
     </button>
   );
 }

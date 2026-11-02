@@ -15,6 +15,10 @@ const OTP_PER_HOUR = 5;
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.PUBLIC_URL,
+  // Vercel preview URLs must be trusted too, or sign-out is refused there.
+  trustedOrigins: [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]
+    .filter((h): h is string => !!h)
+    .map((h) => `https://${h}`),
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
