@@ -4,7 +4,7 @@ import { db, schema } from "@/server/db";
 import { listPackages } from "@/server/gym";
 import { getCurrentUser } from "@/server/session";
 import { getSettings } from "@/server/settings";
-import { BRAND } from "@/brand";
+import { BRAND, DEFAULT_GALLERY } from "@/brand";
 import { PackagePicker } from "./PackagePicker";
 import { PromoBanner } from "./PromoBanner";
 
@@ -53,7 +53,7 @@ export default async function Home() {
   ]);
   const gallery = photos.length
     ? photos.map((p) => ({ src: `/api/gallery/${p.id}`, caption: p.caption }))
-    : [];
+    : DEFAULT_GALLERY;
 
   return (
     <div className="overflow-x-hidden">
@@ -82,7 +82,7 @@ export default async function Home() {
 
       {/* Hero */}
       <section className="relative flex min-h-[clamp(640px,92vh,900px)] flex-col justify-end overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/img/athlete-torso.jpg')] bg-cover bg-[center_14%]" />
+        <div className="absolute inset-0 bg-[url('/img/gym-1.jpg')] bg-cover bg-center" />
         <div className="absolute inset-0" style={{ background: "var(--grad-hero-scrim)" }} />
         <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(8,8,8,.94)_0%,rgba(8,8,8,.5)_46%,transparent_78%)] lg:block" />
         <Container className="relative pt-10 pb-[clamp(38px,6vw,80px)]">
@@ -205,7 +205,7 @@ export default async function Home() {
           </div>
           <figure className="overflow-hidden rounded-sm border border-line-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/img/statue-torso.jpg" alt="" loading="lazy" className="aspect-[4/3] w-full object-cover object-[center_30%]" />
+            <img src="/img/gym-2.jpg" alt="Sparta Fitness заал" loading="lazy" className="aspect-[4/3] w-full object-cover" />
           </figure>
         </Container>
       </section>

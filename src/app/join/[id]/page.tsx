@@ -1,5 +1,6 @@
 import { asc, eq } from "drizzle-orm";
 import Link from "next/link";
+import { DEFAULT_GALLERY } from "@/brand";
 import { notFound, redirect } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { durationLabel } from "@/components/format";
@@ -72,7 +73,7 @@ export default async function JoinPage({ params }: { params: Promise<{ id: strin
           lockerLabel={`${months} сар × ${mnt(settings.lockerMonthlyPriceMnt)}`}
           freeLockers={freeLockers}
           notice={settings.refundNotice}
-          photos={photos.map((p) => `/api/gallery/${p.id}`)}
+          photos={photos.length ? photos.map((p) => `/api/gallery/${p.id}`) : DEFAULT_GALLERY.map((g) => g.src)}
         />
       </div>
     </AppShell>

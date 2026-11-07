@@ -17,3 +17,10 @@ export const BRAND = {
   /** Facebook page name; leave empty to hide the link. */
   facebook: "",
 } as const;
+
+/** Real hall photos, used until the admin uploads gallery photos. */
+export const DEFAULT_GALLERY = [
+  { src: "/img/gym-2.jpg", caption: "Тренажерийн заал" },
+  { src: "/img/gym-1.jpg", caption: "Хүчний бүс" },
+  { src: "/img/gym-3.jpg", caption: "Бокс, сунгалтын бүс" },
+];
