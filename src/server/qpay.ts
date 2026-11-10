@@ -9,7 +9,7 @@ import "server-only";
  *                      payment paid. Lets the whole flow be tried before the
  *                      gym's QPay contract is ready.
  *
- * Live/sandbox need QPAY_CLIENT_ID, QPAY_CLIENT_SECRET, QPAY_INVOICE_CODE
+ * Live/sandbox need QPAY_USERNAME, QPAY_PASSWORD (or QPAY_CLIENT_ID/SECRET), QPAY_INVOICE_CODE
  * (from QPay after the gym signs its merchant contract) and PUBLIC_URL so
  * QPay can call /api/qpay/callback.
  *
@@ -19,9 +19,15 @@ import "server-only";
 
 export type QpayMode = "live" | "sandbox" | "mock";
 
+const env = (k: string) => (process.env[k] ?? "").trim();
+const user = () => env("QPAY_USERNAME") || env("QPAY_CLIENT_ID");
+const pass = () => env("QPAY_PASSWORD") || env("QPAY_CLIENT_SECRET");
+
+/** Real QPay as soon as the credentials are set (like Dugtui); QPAY_MODE=mock/sandbox overrides. */
 export function qpayMode(): QpayMode {
-  const m = process.env.QPAY_MODE;
-  return m === "live" || m === "sandbox" ? m : "mock";
+  const m = env("QPAY_MODE");
+  if (m === "mock" || m === "sandbox" || m === "live") return m === "live" && !user() ? "mock" : (m as QpayMode);
+  return user() && pass() && env("QPAY_INVOICE_CODE") ? "live" : "mock";
 }
 
 function baseUrl() {
@@ -30,11 +36,11 @@ function baseUrl() {
 
 let cached: { token: string; expiresAt: number } | null = null;
 
-async function token(): Promise<string> {
-  if (cached && cached.expiresAt > Date.now() + 60_000) return cached.token;
-  const id = process.env.QPAY_CLIENT_ID;
-  const secret = process.env.QPAY_CLIENT_SECRET;
-  if (!id || !secret) throw new Error("QPAY_CLIENT_ID / QPAY_CLIENT_SECRET not set");
+async function token(force = false): Promise<string> {
+  if (!force && cached && cached.expiresAt > Date.now() + 60_000) return cached.token;
+  const id = user();
+  const secret = pass();
+  if (!id || !secret) throw new Error("QPAY_USERNAME / QPAY_PASSWORD not set");
   const res = await fetch(`${baseUrl()}/auth/token`, {
     method: "POST",
     headers: { Authorization: "Basic " + Buffer.from(`${id}:${secret}`).toString("base64") },
@@ -49,12 +55,18 @@ async function token(): Promise<string> {
 }
 
 async function call<T>(path: string, init: { method: string; body?: unknown }): Promise<T> {
-  const res = await fetch(`${baseUrl()}${path}`, {
-    method: init.method,
-    headers: { Authorization: `Bearer ${await token()}`, "Content-Type": "application/json" },
-    body: init.body ? JSON.stringify(init.body) : undefined,
-    signal: AbortSignal.timeout(20_000),
-  });
+  let res: Response;
+  for (let attempt = 0; ; attempt++) {
+    res = await fetch(`${baseUrl()}${path}`, {
+      method: init.method,
+      headers: { Authorization: `Bearer ${await token(attempt > 0)}`, "Content-Type": "application/json" },
+      body: init.body ? JSON.stringify(init.body) : undefined,
+      signal: AbortSignal.timeout(20_000),
+    });
+    // Token revoked or expired early: renew once.
+    if (res.status === 401 && attempt === 0) continue;
+    break;
+  }
   if (!res.ok) {
     const t = await res.text().catch(() => "");
     throw new Error(`QPay ${path} failed: ${res.status} ${t.slice(0, 300)}`);
@@ -87,10 +99,10 @@ export async function createInvoice(p: {
   }>("/invoice", {
     method: "POST",
     body: {
-      invoice_code: process.env.QPAY_INVOICE_CODE,
+      invoice_code: env("QPAY_INVOICE_CODE"),
       sender_invoice_no: p.paymentId,
       invoice_receiver_code: p.receiverCode,
-      invoice_description: p.description,
+      invoice_description: p.description.slice(0, 200),
       amount: p.amountMnt,
       callback_url: p.callbackUrl,
     },
