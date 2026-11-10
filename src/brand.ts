@@ -11,11 +11,14 @@ export const BRAND = {
   tagline: "Спартан хүч, спартан сахилга бат",
   city: "Улаанбаатар",
   phone: "86661231",
-  phone2: "88069560",
-  branch: "3, 4 хороолол салбар",
+  branch: "Хорооллын Өргөө, Auto plaza",
+  /** Full directions shown in the footer. */
+  address: "Хорооллын Өргөө кино театраас урагш 250 м, Auto plaza-ийн хойд талд, Хүслэн эмнэлэгтэй шар барилгын 4 давхар",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=47.925133,106.87608",
   hours: "06:00–22:00, өдөр бүр",
-  /** Facebook page name; leave empty to hide the link. */
-  facebook: "",
+  /** Facebook page; leave url empty to hide the link. */
+  facebook: "Sparta Fitness",
+  facebookUrl: "https://www.facebook.com/BerdGymMongolia",
 } as const;
 
 /** Real hall photos, used until the admin uploads gallery photos. */

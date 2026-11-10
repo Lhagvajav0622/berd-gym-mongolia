@@ -11,7 +11,6 @@ import { PromoBanner } from "./PromoBanner";
 export const dynamic = "force-dynamic";
 
 const PHONE = BRAND.phone;
-const PHONE2 = BRAND.phone2;
 
 const FEATURES = [
   "Мэргэжлийн багш дасгалжуулагч",
@@ -198,8 +197,8 @@ export default async function Home() {
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <ButtonLink href="#price">Элсэлт авах</ButtonLink>
-              <a href={`tel:${PHONE2}`} className="display text-[18px] text-orange">
-                {PHONE2}
+              <a href={`tel:${PHONE}`} className="display text-[18px] text-orange">
+                {PHONE}
               </a>
             </div>
           </div>
@@ -216,14 +215,14 @@ export default async function Home() {
           <div className="flex flex-col justify-between gap-[clamp(28px,4vw,64px)] lg:flex-row">
             <div className="max-w-[360px]">
               <Logo className="h-[38px]" />
-              <p className="mt-[18px] leading-relaxed text-fg-2">{BRAND.tagline}. {BRAND.city}, {BRAND.branch}т тань хүлээж байна.</p>
+              <p className="mt-[18px] leading-relaxed text-fg-2">{BRAND.tagline}. {BRAND.city}, Хорооллын Өргөөгийн ойролцоо тань хүлээж байна.</p>
             </div>
             <div className="grid gap-4 lg:min-w-[460px] lg:grid-cols-2">
               {[
-                { l: "Утас", v: `${PHONE} · ${PHONE2}`, h: `tel:${PHONE}` },
-                { l: "Салбар", v: BRAND.branch },
+                { l: "Утас", v: PHONE, h: `tel:${PHONE}` },
+                { l: "Хаяг", v: BRAND.address, h: BRAND.mapUrl },
                 { l: "Цагийн хуваарь", v: BRAND.hours },
-                ...(BRAND.facebook ? [{ l: "Facebook", v: BRAND.facebook, h: `https://facebook.com/${BRAND.facebook}` }] : []),
+                ...(BRAND.facebookUrl ? [{ l: "Facebook", v: BRAND.facebook, h: BRAND.facebookUrl }] : []),
               ].map((r) => {
                 const inner = (
                   <>
